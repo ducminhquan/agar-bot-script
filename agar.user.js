@@ -21,11 +21,9 @@ console.log("Running Bot!");
 
   function keyAction(e) {
     if (84 == e.keyCode) {
-      console.log("Toggle");
       toggle = !toggle;
     }
     if (82 == e.keyCode) {
-      console.log("ToggleDraw");
       toggleDraw = !toggleDraw;
     }
     if (68 == e.keyCode) {
@@ -761,7 +759,7 @@ console.log("Running Bot!");
               //TODO: Add wall angles here. Hardcoding temporary values.
               if (player[0].x < 1000 && badAngles.length > 0) {
                   //LEFT
-                  console.log("Left");
+                  //console.log("Left");
                   var wallI = 1;
                   if (!interNodes.hasOwnProperty(wallI)) {
                       var newX = -100 - screenDistance();
@@ -785,7 +783,7 @@ console.log("Running Bot!");
               }
               if (player[0].y < 1000 && badAngles.length > 0) {
                   //TOP
-                  console.log("TOP");
+                  //console.log("TOP");
                   var wallI = 2;
                   if (!interNodes.hasOwnProperty(wallI)) {
                       var newY = -100 - screenDistance();
@@ -808,7 +806,7 @@ console.log("Running Bot!");
               }
               if (player[0].x > 11180 - 1000 && badAngles.length > 0) {
                   //RIGHT
-                  console.log("RIGHT");
+                  //console.log("RIGHT");
                   var wallI = 3;
                   if (!interNodes.hasOwnProperty(wallI)) {
                       var newX = 11180 + 100 + screenDistance();
@@ -831,7 +829,7 @@ console.log("Running Bot!");
               }
               if (player[0].y > 11180 - 1000 && badAngles.length > 0) {
                   //BOTTOM
-                  console.log("BOTTOM");
+                  //console.log("BOTTOM");
                   var wallI = 4;
                   if (!interNodes.hasOwnProperty(wallI)) {
                       var newY = 11180 + 100 + screenDistance();
@@ -855,7 +853,7 @@ console.log("Running Bot!");
 
               //console.log("1) Good Angles: " + goodAngles.length + " Bad Angles: " + badAngles.length);
               //TODO: Step 1: Write code to substract angle ranges.
-              console.log("---");
+              //console.log("---");
               for (var i = 0; i < badAngles.length; i++) {
                   var tempGoodAnglesLength = goodAngles.length;
 
@@ -863,7 +861,7 @@ console.log("Running Bot!");
                       angle1 = rangeToAngle(badAngles[i]);
                       angle2 = (badAngles[i][0] - angle1).mod(360);
                       goodAngles.push([angle1, angle2]);
-                      console.log("Add: " + anglePair(goodAngles[0]));
+                      //console.log("Add: " + anglePair(goodAngles[0]));
                       continue;
                   }
                   var removeIndex = [];
@@ -871,12 +869,12 @@ console.log("Running Bot!");
 
                       if (goodAngles[j][1] == 0) {
                           removeIndex.push(j);
-                          console.log("Removed " + anglePair(goodAngles[j]));
+                          //console.log("Removed " + anglePair(goodAngles[j]));
                           break;
                       }
 
                       if (angleRangeIsWithin(goodAngles[j], badAngles[i])) {
-                          console.log("Removed " + anglePair(goodAngles[j]));
+                          //console.log("Removed " + anglePair(goodAngles[j]));
                           removeIndex.push(j);
                       } else if (angleRangeIsWithin(badAngles[i], goodAngles[j])) {
                           var diff1 = (badAngles[i][0] - goodAngles[j][0]).mod(360);
@@ -890,27 +888,27 @@ console.log("Running Bot!");
                           goodAngles.push(newGoodAngle);
                           goodAngles[j][1] = diff1;
 
-                          console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
+                          //console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
                           if (goodAngles[j][1] == 0) {
                               removeIndex.push(j);
-                              console.log("Removed " + anglePair(goodAngles[j]));
+                              //console.log("Removed " + anglePair(goodAngles[j]));
                           }
 
-                          console.log("Add: " + anglePair(newGoodAngle));
+                          //console.log("Add: " + anglePair(newGoodAngle));
 
                           break;
                       } else if (angleIsWithin(badAngles[i][0], goodAngles[j])) {
                           var oldGoodAngle = goodAngles[j];
                           var diff = (badAngles[i][0] - goodAngles[j][0]).mod(360);
                           goodAngles[j][1] = diff;
-                          console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
+                          //console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
                       } else if (angleIsWithin(rangeToAngle(badAngles[i]), goodAngles[j])) {
                           var oldGoodAngle = goodAngles[j];
                           var oldY = rangeToAngle(goodAngles[j]);
                           goodAngles[j][0] = rangeToAngle(badAngles[i]);
                           var diff = (oldY - goodAngles[j][0]).mod(360);
                           goodAngles[j][1] = diff;
-                          console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
+                          //console.log("Modify: " + anglePair(oldGoodAngle) + " into: " + anglePair(goodAngles[j]));
                       }
                   }
                   if (removeIndex.length > 0) {
@@ -2077,6 +2075,15 @@ console.log("Running Bot!");
             e.lineWidth = 10;
             e.lineCap = 'round';
             e.lineJoin = this.isVirus ? 'mitter' : 'round';
+              
+              player = getPlayer();
+              if(player[0] && !this.isVirus && !this.isAgitated) {
+              if (player[0].size >= 2 * this.size - 20) this.color = '#000000';
+              else if (player[0].size * 2 < this.size + 20) this.color = '#000000';
+              }
+              
+              
+              
             ma ? (e.fillStyle = '#FFFFFF', e.strokeStyle = '#AAAAAA')  : (e.fillStyle = this.color, e.strokeStyle = this.color);
             if (a) e.beginPath(),
             e.arc(this.x, this.y, this.size, 0, 2 * Math.PI, !1);
