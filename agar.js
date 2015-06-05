@@ -16,6 +16,7 @@ Array.prototype.peek = function() {
     return this[this.length-1];
 }
 
+console.log("Running Bot!");
 (function (f, g) {
 
   function keyAction(e) {
